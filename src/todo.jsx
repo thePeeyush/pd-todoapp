@@ -7,20 +7,25 @@ import { MdAddBox, MdDeleteSweep } from "react-icons/md";
     return list ? list : [];
   };
    // Function to get the next ID for a new item
-  async function getId() {
-    let list = await JSON.parse(localStorage.getItem("list"));
-    return list.id ? list[list.length - 1].id + 1 : 0;
+  const getId = () => {
+    let id = Number(localStorage.getItem("id"));
+    return id ? id  : 0;
   }
   const [item, setItem] = useState("");
   const [list, setList] = useState(fromLocal);
   const [id, setId] = useState(getId);
    // Function to store list in local storage
-  const toLocal = (list) => {
+  const toLocal = (list,id) => {
+    if (list) {
     localStorage.setItem("list", JSON.stringify(list));
+    }
+    if (id) {
+    localStorage.setItem("id", id.toString());
+    }
   };
    useEffect(() => {
-    toLocal(list);
-  }, [list]);
+    toLocal(list,id);
+  }, [list,id]);
    // Function to increment ID
   const nextId = () => {
     setId(id + 1);
